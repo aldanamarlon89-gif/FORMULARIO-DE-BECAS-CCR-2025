@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Formulario de Beca</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e3f2fd;
+      padding: 20px;
+    }
+    form {
+      background-color: white;
+      padding: 25px;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .header img {
+      max-height: 50px;
+      width: auto;
+    }
+    .header h2 {
+      color: #0d47a1;
+      margin: 0;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #0d47a1;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: #1565c0;
+    }
+    #mensaje-envio {
+      color: green;
+      font-weight: bold;
+      margin-top: 15px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="beca-form" action="https://formspree.io/f/xovlknww" method="POST">
+    <div class="header">
+      <img src="https://myccrcolegiocristorey.wordpress.com/wp-content/uploads/2016/09/cropped-logo_colegio-1.jpg" 
+      alt="Logo de la Institución" />
+      <h2>Formulario de Postulación de Beca</h2>
+    </div>
+
+    <label>Nombre completo:</label>
+    <input type="text" name="nombre_completo" required />
+
+    <label>Edad:</label>
+    <input type="number" name="edad" required />
+
+    <label>Correo electrónico:</label>
+    <input type="email" name="email" required />
+
+    <label>Teléfono:</label>
+    <input type="tel" name="telefono" required />
+
+    <label>Dirección:</label>
+    <input type="text" name="direccion" required />
+
+    <label>Establecimiento educativo actual:</label>
+    <input type="text" name="establecimiento_educativo" required />
+
+    <label>Grado/Carrera que estudia:</label>
+    <input type="text" name="grado_carrera" required />
+
+    <label>Nombre del padre/madre o encargado:</label>
+    <input type="text" name="nombre_encargado" />
+
+    <label>Ocupación del padre/madre:</label>
+    <input type="text" name="ocupacion_encargado" />
+
+    <label>Ingresos familiares mensuales aproximados (Q):</label>
+    <input type="number" name="ingresos_familiares" />
+
+    <label>¿Tiene hermanos estudiando?</label>
+    <select name="hermanos_estudiando">
+      <option value="Sí">Sí</option>
+      <option value="No">No</option>
+    </select>
+
+    <label>Explique brevemente por qué necesita la beca:</label>
+    <textarea name="razon_beca" rows="4"></textarea>
+
+    <label>Redacte un pequeño ensayo: ¿Por qué desea esta beca y cómo puede aprovecharla?</label>
+    <textarea name="ensayo_beca" rows="6"></textarea>
+
+    <button type="submit">Enviar Solicitud</button>
+
+    <p id="mensaje-envio"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById('beca-form');
+    const mensajeEnvio = document.getElementById('mensaje-envio');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(response => {
+        if (response.ok) {
+          mensajeEnvio.style.display = 'block';
+          mensajeEnvio.style.color = 'green';
+          mensajeEnvio.textContent = '¡Gracias! Tu solicitud ha sido enviada correctamente. En breve nos comunicaremos con usted.';
+          form.reset();
+        } else {
+          mensajeEnvio.style.display = 'block';
+          mensajeEnvio.style.color = 'red';
+          mensajeEnvio.textContent = 'Hubo un problema al enviar el formulario. Por favor, inténtalo de nuevo.';
+        }
+      }).catch(() => {
+        mensajeEnvio.style.display = 'block';
+        mensajeEnvio.style.color = 'red';
+        mensajeEnvio.textContent = 'Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo.';
+      });
+    });
+  </script>
+
+</body>
+</html>
